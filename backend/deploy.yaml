@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: portable-backend
+        image: anant1999/backend-portable
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: my-vol
+          mountPath: /app/config
+      volumes:
+      - name: my-vol
+        configMap:
+          name: defmap
+          items:
+          - key: env_files.properties
+            path: env_files.properties
